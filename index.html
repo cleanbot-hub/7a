@@ -6,23 +6,144 @@
     <title>의료기관 인증 평가 </title>
     <style>
         /* 기본 스타일 */
-        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        h2 { color: #2c3e50; }
-        .menu-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .menu-btn { padding: 10px 15px; cursor: pointer; border: none; background: #3498db; color: white; border-radius: 5px; font-size: 16px; }
-        .menu-btn:hover { background: #2980b9; }
+        body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+      background: #f0f2f5;
+    }
 
-        /* 모달 스타일 */
-        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-        .modal-content { background-color: white; margin: 10% auto; padding: 20px; width: 50%; border-radius: 10px; text-align: left; max-height: 70vh; overflow-y: auto; }
-        .close-btn { color: red; float: right; font-size: 24px; font-weight: bold; cursor: pointer; }
-        .close-btn:hover { color: darkred; }
+    h1, h2 {
+      color: #2c3e50;
+    }
 
-        /* 반응형 스타일 */
-        @media (max-width: 768px) {
-            .modal-content { width: 80%; }
-            .menu-btn { width: 90%; }
-        }
+    .menu-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .menu-btn {
+      padding: 10px 15px;
+      cursor: pointer;
+      border: none;
+      background: #3498db;
+      color: white;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .menu-btn:hover {
+      background: #2980b9;
+    }
+
+    /* 모달 스타일 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 20px;
+      width: 50%;
+      border-radius: 10px;
+      text-align: left;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .close-btn {
+      color: red;
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: darkred;
+    }
+
+    /* 방명록 입력 폼 */
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0 auto 1.5rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form input {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .form button {
+      padding: 0.8rem;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form button:hover {
+      background-color: #45a049;
+    }
+
+    #messagesList {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    #messagesList li {
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.7rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      word-break: break-word;
+    }
+
+    #messagesList li span {
+      display: block;
+      font-weight: bold;
+      color: #4CAF50;
+      margin-bottom: 0.3rem;
+    }
+
+    /* 반응형 스타일 */
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 80%;
+      }
+
+      .menu-btn {
+        width: 90%;
+      }
+
+      .form, #messagesList {
+        max-width: 90%;
+      }
+    }
     </style>
 </head>
 <body>
@@ -615,6 +736,66 @@
         </div>
     </div>
 </div>
+
+<h1>방명록 남기기</h1>
+
+  <div class="form">
+    <input type="text" id="nameInput" placeholder="이름을 입력하세요" />
+    <input type="text" id="messageInput" placeholder="메시지를 입력하세요" />
+    <button id="submitBtn">메시지 남기기</button>
+  </div>
+
+  <ul id="messagesList"></ul>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyACn_-2BLztKYmBKXtrKNtMsC-2Y238oug",
+      authDomain: "woori-1ecf5.firebaseapp.com",
+      projectId: "woori-1ecf5",
+      storageBucket: "woori-1ecf5.firebasestorage.app",
+      messagingSenderId: "1073097361525",
+      appId: "1:1073097361525:web:20c92016bee159314d503c",
+      measurementId: "G-RJJF98P8J9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const nameInput = document.getElementById('nameInput');
+    const messageInput = document.getElementById('messageInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const messagesList = document.getElementById('messagesList');
+
+    submitBtn.addEventListener('click', async () => {
+      const name = nameInput.value.trim();
+      const message = messageInput.value.trim();
+      if (name && message) {
+        await addDoc(collection(db, "guestbook"), {
+          name,
+          message,
+          timestamp: new Date()
+        });
+        nameInput.value = '';
+        messageInput.value = '';
+      }
+    });
+
+    const q = query(collection(db, "guestbook"), orderBy("timestamp", "desc"));
+    onSnapshot(q, (snapshot) => {
+      messagesList.innerHTML = '';
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${data.name}</span>${data.message}`;
+        messagesList.appendChild(li);
+      });
+    });
+  </script>
+
+
 
 
 
