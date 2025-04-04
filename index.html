@@ -736,67 +736,6 @@
         </div>
     </div>
 </div>
-<h1>방명록</h1>
-<input type="text" id="name" placeholder="이름" />
-<input type="text" id="message" placeholder="메시지" />
-<button onclick="submitMessage()">남기기</button>
-
-<ul id="guestbook"></ul>
-
-<script>
-  const scriptUrl = "https://script.google.com/macros/s/AKfycbxc9iDXuJU1Ja19GS_3lTkmqjRA2DrNVTLCVV1EHcHFkqn12R8cO5DluvxLTme-AXPY/exec";
-
-  function submitMessage() {
-    const name = document.getElementById("name").value.trim();
-    const message = document.getElementById("message").value.trim();
-
-    if (!name || !message) {
-      alert("이름과 메시지를 입력하세요.");
-      return;
-    }
-
-    fetch(scriptUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, message })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.result === "success") {
-          document.getElementById("name").value = "";
-          document.getElementById("message").value = "";
-          loadMessages();
-        } else {
-          alert("오류 발생! 다시 시도해주세요.");
-        }
-      })
-      .catch(error => {
-        console.error("데이터 전송 오류:", error);
-        alert("전송 실패 😢 다시 시도해주세요.");
-      });
-  }
-
-  function loadMessages() {
-    fetch(scriptUrl)
-      .then(response => response.json())
-      .then(data => {
-        const list = document.getElementById("guestbook");
-        list.innerHTML = "";
-        data.reverse().forEach(entry => {
-          const li = document.createElement("li");
-          li.innerHTML = `<strong>${entry.name}</strong>: ${entry.message}<br><small>${entry.timestamp}</small>`;
-          list.appendChild(li);
-        });
-      })
-      .catch(error => {
-        console.error("데이터 로드 오류:", error);
-        alert("메시지를 불러오는 중 오류가 발생했습니다.");
-      });
-  }
-
-  loadMessages();
-  
-</script>
 
 
 
