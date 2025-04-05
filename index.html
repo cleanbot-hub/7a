@@ -738,21 +738,101 @@
 </div>
 
 
+<!-- 메뉴 버튼 리스트에 척추 수술 종류 추가 -->
+<button class="menu-btn" onclick="openModal('modal12')">척추</button>
+
+<!-- 척추 수술 종류 모달 (기본 모달) -->
+<div id="modal12" class="modal">
+  <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
+    <span class="close-btn" onclick="closeModal('modal12')">&times;</span>
+    <h3>척추</h3>
+    
+    <!-- 수술 종류 목록 -->
+    <div>
+      <h4>허리 질환</h4>
+      <ul>
+        <li>
+          <a onclick="openModal('modal_hd'); return false;">
+            <strong>허리디스크 (Lumbar Disc Herniation)</strong>
+          </a>: 디스크 탈출 또는 돌출로 인한 신경 압박을 완화하는 수술
+        </li>
+        <li>
+          <a onclick="openModal('modal_sc'); return false;">
+            <strong>척추관협착증 (Spinal Canal Stenosis)</strong>
+          </a>: 척추관이 좁아져 신경이 압박되는 상태를 해소하는 수술
+        </li>
+        <li>
+          <a onclick="openModal('modal_cf'); return false;">
+            <strong>척추압박골절 (Compression Fracture)</strong>
+          </a>: 척추 골절 부위를 안정화하고 통증을 줄이는 수술
+        </li>
+        <li>
+          <a onclick="openModal('modal_as'); return false;">
+            <strong>척추전방위증 (Anterior Spondylolisthesis)</strong>
+          </a>: 척추가 전방으로 밀려나 발생하는 불안정성을 교정하는 수술
+        </li>
+        <li>
+          <a onclick="openModal('modal_sp'); return false;">
+            <strong>척추분리증 (Spondylolysis)</strong>
+          </a>: 척추 뼈의 결함으로 인한 안정성 저하를 보완하는 수술
+        </li>
+        <li>
+          <a onclick="openModal('modal_kp'); return false;">
+            <strong>척추후만증 (Kyphosis)</strong>
+          </a>: 척추가 비정상적으로 굽어지는 상태를 교정하는 수술
+        </li>
+        <li>
+          <a onclick="openModal('modal_sc2'); return false;">
+            <strong>척추측만증 (Scoliosis)</strong>
+          </a>: 척추가 측면으로 휘는 상태를 교정하는 수술
+        </li>
+        <li>
+          <a onclick="openModal('modal_ams'); return false;">
+            <strong>이상근증후군 (Abnormal Muscle Syndrome)</strong>
+          </a>: 척추 주변 근육의 이상으로 인한 통증 및 기능 장애를 개선하는 수술
+        </li>
+      </ul>
+      
+      <h4>목 질환</h4>
+      <ul>
+        <li>
+          <a onclick="openModal('modal_cd'); return false;">
+            <strong>목디스크 (Cervical Disc Herniation)</strong>
+          </a>: 목 부위 디스크 탈출 또는 돌출로 인한 신경 압박을 완화하는 수술
+        </li>
+        <li>
+          <a onclick="openModal('modal_fhp'); return false;">
+            <strong>거북목증후군 (Forward Head Posture Syndrome)</strong>
+          </a>: 거북목 증상 개선을 위한 교정 수술 및 재활 치료
+        </li>
+        <li>
+          <a onclick="openModal('modal_opll'); return false;">
+            <strong>후종인대골화증 (Ossification of the Posterior Longitudinal Ligament)</strong>
+          </a>: 목 척추의 후종인대가 골화되어 신경 압박을 유발하는 상태를 개선하는 수술
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 
-    <!-- 동일한 방식으로 나머지 모달 추가 가능 -->
 
-    <script>
-        // 모달 열기
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = "block";
-        }
 
-        // 모달 닫기
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = "none";
-        }
-    </script>
+  <!-- 나머지 질환들도 동일한 방식으로 상세 정보 모달을 추가할 수 있습니다. -->
+  <!-- 예: 척추관협착증, 척추압박골절, 척추전방위증 등 각각에 대해 상세 정보 모달을 만들어 상세한 치료/수술 방법을 기술 -->
+  
+  <!-- 스크립트: 모달 열기 및 닫기 -->
+ 
+<!-- 스크립트: 모달 열기 및 닫기 -->
+<script>
+  function openModal(modalId) {
+    document.getElementById(modalId).style.display = "block";
+  }
+  function closeModal(modalId) {
+    document.getElementById(modalId).style.display = "none";
+  }
+</script>
+
 
 </body>
 </html>
